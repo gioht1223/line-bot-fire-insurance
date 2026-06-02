@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  line-bot:
+    build: .
+    ports:
+      - "5000:5000"
+    environment:
+      - LINE_CHANNEL_ACCESS_TOKEN=${LINE_CHANNEL_ACCESS_TOKEN}
+      - LINE_CHANNEL_SECRET=${LINE_CHANNEL_SECRET}
+      - GOOGLE_SHEET_ID=${GOOGLE_SHEET_ID}
+      - GOOGLE_CREDENTIALS_JSON=${GOOGLE_CREDENTIALS_JSON}
+      - FLASK_ENV=production
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs

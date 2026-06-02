@@ -1,0 +1,1 @@
+web: gunicorn -w 4 -b 0.0.0.0:$PORT line_bot_server:app

@@ -1,0 +1,71 @@
+# 環境變數
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+share/python-wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+MANIFEST
+
+# 虛擬環境
+venv/
+ENV/
+env/
+.venv
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# 日誌
+logs/
+*.log
+
+# 敏感檔案
+*.json
+!requirements.txt
+credentials.json
+token.pickle
+service_account.json
+
+# 臨時檔案
+*.tmp
+*.temp
+.cache/
+
+# ngrok
+ngrok.yml
+
+# 測試
+.pytest_cache/
+.coverage
+htmlcov/
+
+# 部署
+.env.production
+.env.staging
