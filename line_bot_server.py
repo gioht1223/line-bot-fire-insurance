@@ -109,7 +109,8 @@ class PolicyQueryManager:
                             'address': record.get('標的物地址', ''),
                             'effective_date': record.get('保險生效日期', ''),
                             'phone': record.get('手機號碼', ''),
-                            'premium': record.get('總保費', '')
+                            'premium': record.get('總保費', ''),
+                            'agent_name': record.get('業務姓名', '')
                         }
                     }
             
@@ -210,7 +211,8 @@ def handle_message(event):
                 f"標的物地址：{data['address']}\n"
                 f"保險生效日期：{data['effective_date']}\n"
                 f"手機號碼：{data['phone']}\n"
-                f"總保費：{data['premium']}"
+                f"總保費：{data['premium']}\n"
+                f"業務姓名：{data['agent_name']}"
             )
         else:
             reply_text = (
