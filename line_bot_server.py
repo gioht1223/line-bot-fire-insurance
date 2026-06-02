@@ -178,12 +178,22 @@ def handle_message(event):
     # 檢查用戶目前狀態
     user_state = query_manager.get_user_state(user_id)
     
+    # 定義相關關鍵詞
+    keywords = ["火險", "保單", "保單查詢", "火險保單", "住火險", "居家安全險", "居家火險", "火險查詢"]
+    
     # 狀態機制
     if message_text == "火險保單查詢":
         # 開始查詢流程
         query_manager.set_user_state(user_id, "waiting_id")
         reply_message = TextSendMessage(
             text="請輸入您的身分證字號"
+        )
+        line_bot_api.reply_message(event.reply_token, reply_message)
+    
+    elif any(keyword in message_text for keyword in keywords):
+        # 檢測到相關關鍵詞
+        reply_message = TextSendMessage(
+            text="如您要查詢您自身火險保單，請輸入【火險保單查詢】並輸入被保人的正確資料"
         )
         line_bot_api.reply_message(event.reply_token, reply_message)
     
