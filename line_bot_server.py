@@ -235,31 +235,6 @@ def handle_message(event):
         
         # 可以在這裡新增通知業務的邏輯
         logger.info(f"用戶 {user_id} 要求轉接業務")
-    
-    elif message_text == "說明":
-        # 提供使用說明
-        help_text = (
-            "火險保單查詢系統使用說明\n\n"
-            "1. 輸入「火險保單查詢」開始查詢\n"
-            "2. 依提示輸入身分證字號\n"
-            "3. 輸入出生年月日（格式：YYYY-MM-DD）\n"
-            "4. 系統會顯示您的保單資訊\n\n"
-            "如有問題，輸入「專人」與業務聯絡"
-        )
-        reply_message = TextSendMessage(text=help_text)
-        line_bot_api.reply_message(event.reply_token, reply_message)
-    
-    else:
-        # 預設回覆
-        default_reply = (
-            "歡迎使用火險保單查詢系統\n\n"
-            "請輸入以下命令：\n"
-            "• 火險保單查詢 - 查詢您的保單資訊\n"
-            "• 說明 - 查看使用說明\n"
-            "• 專人 - 與業務人員聯絡"
-        )
-        reply_message = TextSendMessage(text=default_reply)
-        line_bot_api.reply_message(event.reply_token, reply_message)
 
 
 @app.route("/health", methods=['GET'])
