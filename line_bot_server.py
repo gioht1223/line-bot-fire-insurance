@@ -97,22 +97,27 @@ class PolicyQueryManager:
             id_number = id_number.strip().upper()
             birth_date = birth_date.strip().replace('/', '-')
             
+            # 蒐集所有匹配的記錄
+            matching_records = []
             for record in all_records:
                 sheet_id = record.get('身分證字號', '').strip().upper()
                 sheet_birth = record.get('出生年月日', '').strip().replace('/', '-')
                 
                 if sheet_id == id_number and sheet_birth == birth_date:
-                    return {
-                        'success': True,
-                        'data': {
-                            'name': record.get('姓名', ''),
-                            'address': record.get('標的物地址', ''),
-                            'effective_date': record.get('保險生效日期', ''),
-                            'phone': record.get('手機號碼', ''),
-                            'premium': record.get('總保費', ''),
-                            'agent_name': record.get('業務姓名', '')
-                        }
-                    }
+                    matching_records.append({
+                        'name': record.get('姓名', ''),
+                        'address': record.get('標的物地址', ''),
+                        'effective_date': record.get('保險生效日期', ''),
+                        'phone': record.get('手機號碼', ''),
+                        'premium': record.get('總保費', ''),
+                        'agent_name': record.get('業務姓名', '')
+                    })
+            
+            if matching_records:
+                return {
+                    'success': True,
+                    'data': matching_records
+                }
             
             return {
                 'success': False,
@@ -214,16 +219,23 @@ def handle_message(event):
         result = query_manager.query_policy(id_number, birth_date)
         
         if result['success']:
-            data = result['data']
-            reply_text = (
-                f"✓ 查詢成功\n\n"
-                f"姓名：{data['name']}\n"
-                f"標的物地址：{data['address']}\n"
-                f"保險生效日期：{data['effective_date']}\n"
-                f"手機號碼：{data['phone']}\n"
-                f"總保費：{data['premium']}\n"
-                f"業務姓名：{data['agent_name']}"
-            )
+            data_list = result['data']
+            if isinstance(data_list, list) and len(data_list) > 0:
+                reply_text = f"✓ 查詢成功【共{len(data_list)}筆】\n\n"
+                for idx, data in enumerate(data_list, 1):
+                    reply_text += (
+                        f"【編號 {idx}】\n"
+                        f"姓名：{data['name']}\n"
+                        f"標的物地址：{data['address']}\n"
+                        f"保險生效日期：{data['effective_date']}\n"
+                        f"手機號碼：{data['phone']}\n"
+                        f"總保費：{data['premium']}\n"
+                        f"業務姓名：{data['agent_name']}"
+                    )
+                    if idx < len(data_list):
+                        reply_text += "\n\n"
+            else:
+                reply_text = "✓ 查詢成功"
         else:
             reply_text = (
                 f"查無資料\n\n"
